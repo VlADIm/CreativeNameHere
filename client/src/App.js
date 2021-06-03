@@ -24,6 +24,7 @@
 //
 // export default App;
 import React, { Component } from 'react';
+import CanvasDraw from 'react-canvas-draw';
 import './App.css';
 import axios from 'axios'
 
@@ -44,6 +45,14 @@ class App extends Component {
       <div className="App">
         <h1>Hello from the frontend!</h1>
         <h1>{this.state.response.body}</h1>
+        <button onClick={() => {this.saveableCanvas.clear();}}>
+            Clear
+        </button>
+        <CanvasDraw
+        ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
+        brushColor='black'
+        brushRadius='8'
+        />
       </div>
     );
   }

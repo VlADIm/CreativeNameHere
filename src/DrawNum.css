@@ -1,0 +1,20 @@
+
+.DragII {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+svg {
+    margin: 1rem 0;
+    cursor: crosshair;
+}
+
+.deets {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+}
+.deets > div {
+    margin: 0.25rem;
+}

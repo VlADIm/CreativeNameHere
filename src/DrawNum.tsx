@@ -29,7 +29,7 @@ export default function DragII({ data = [], width, height, formatted_data, trans
       setLines(currLines => [...currLines, [{ x: currDrag.x, y: currDrag.y }]]);
       setDrawn(currDraw => {
           const newPoint = { x: currDrag.x, y: currDrag.y};
-          currDraw[Math.trunc(newPoint.x/10)][Math.trunc(newPoint.y/10)]=1;
+          currDraw[Math.trunc(newPoint.y/10)][Math.trunc(newPoint.x/10)]=1;
           transferData(currDraw);
           return currDraw;
       });
@@ -49,7 +49,7 @@ export default function DragII({ data = [], width, height, formatted_data, trans
       });
       setDrawn(currDraw => {
           const newPoint = { x: currDrag.x + currDrag.dx, y: currDrag.y + currDrag.dy };
-          currDraw[Math.trunc(newPoint.x/10)][Math.trunc(newPoint.y/10)]=1;
+          currDraw[Math.trunc(newPoint.y/10)][Math.trunc(newPoint.x/10)]=1;
           transferData(currDraw);
           return currDraw;
       });

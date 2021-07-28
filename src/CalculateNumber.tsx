@@ -9,24 +9,6 @@ export type CalculateNumberProps = {
     output?: number;
 }
 
-// function calculateOutput(input:number[],network:Network) {
-//
-//     const output = 10;
-//
-//
-//     // let a = math.matrix(input);
-//     //
-//     // math.dot()
-//     // math.add()
-//     //
-//     // network.forEach(layer => {
-//     //     math.dot()+
-//     // });
-//
-//     console.log(output)
-//     return output;
-// }
-
 function sigmoid(layer: Matrix) {
     let temp = new Array();
     layer.to1DArray().forEach(element => {
@@ -40,59 +22,6 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
 
     const [data,setData]=useState<Network>(network);
     const [result,setResult]=useState<number>(10);
-    // const getResult=()=>{
-    //     console.log("START FORWARD FEEDING DEBUG STATEMENTS");
-    //     console.log('input');
-    //     console.log(input);
-    //
-    //     let value = input;
-    //     if((!Array.isArray(data.biases) || !data.biases.length) || (!Array.isArray(data.weights) || !data.weights.length)){
-    //         console.log('data');
-    //         getData();
-    //         console.log(data);
-    //         console.log("DATA PROP NOT SET, ENDING FORWARD FEEDING DEBUG STATEMENTS");
-    //         setResult(-1);
-    //     } else {
-    //         const layer = data.weights.map(function(element,i){
-    //             // console.log("Inside map!");
-    //             // console.log('element');
-    //             // console.log(element);
-    //             //
-    //             // console.log('data.biases[i]');
-    //             // console.log(data.biases[i]);
-    //
-    //             return [element,data.biases[i]];
-    //         });
-    //         layer.forEach(element => {
-    //             console.log('In forEach Loop');
-    //             console.log(value);
-    //             console.log(element[0]);
-    //             console.log(element[1]);
-    //
-    //         });
-    //         console.log()
-    //         console.log(value);
-    //         setResult(10);
-    //     }
-    // }
-    // // console.log(math.add(math.dot(element[0],value),element[1]));
-    // // value=math.add(math.dot(element[0],value),element[1]);
-    // const getData=()=>{
-    //     fetch('network.json',{
-    //         headers : {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json'
-    //         }
-    //     })
-    //     .then(function(response){
-    //         // console.log(response)
-    //         return response.json();
-    //     })
-    //     .then(function(myJson) {
-    //         // console.log(myJson);
-    //         setData(myJson)
-    //     });
-    // }
 
     const getData = useCallback(() => {
         fetch('network.json',{
@@ -112,18 +41,13 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
     }, [],);
 
     const getResult = () => {
-        console.log("TESTING");
+
         let value = Matrix.columnVector(input);
 
-        // if(data.weights.length === data.biases.length){
-        //     for (let i = 0; i < data.weights.length; i++) {
-        //         console.log(data.weights[i].length);
-        //         console.log(data.biases[i]);
-        //     }
-        // }
+        const newArr = [];
+        while(input.length) newArr.push(input.splice(0,28));
+        console.log(newArr);
 
-        console.log(typeof(data.biases[0][0][0]));
-        console.log(typeof(data.biases[0][0][0]));
 
         const layer = data.weights.map(function(element,i){
             return [element,data.biases[i]];

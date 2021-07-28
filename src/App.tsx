@@ -8,7 +8,7 @@ import './App.css';
 
 
 function App() {
-    const [data,setData] = useState<number[][]>(Array.from(Array(28), _ => Array(28).fill(0)));
+    const [info,setInfo] = useState<number[][]>(Array.from(Array(28), _ => Array(28).fill(0)));
     const [linear,setLinear] = useState<number[]>([]);
     // const getData=()=>{
     //     setData(data);
@@ -18,22 +18,26 @@ function App() {
     //     // calculateOutput(input,data);
     // },[])
 
-    const getData = () =>{
+    const getInfo = () =>{
         // console.log(data.flat());
         // console.log(typeof(data.flat()));
-        return data.flat();
+        return info.flat();
+    }
+
+    const handleInfo = (newInfo: number[][]) => {
+        setInfo(newInfo);
     }
 
     useEffect(()=>{
-        setLinear(getData());
+        setLinear(getInfo());
         // calculateOutput(input,data);
-    },[])
+    },[handleInfo]);
 
 
     return (
     <div className="App">
         <div>
-        {data.map(function (row, i){
+        {info.map(function (row, i){
             var entry = row.map(function (element, j) {
                 return (
                     <td key={j}> {element} </td>
@@ -43,8 +47,8 @@ function App() {
         })
         }
         </div>
-        <DrawNum width={280} height={280} formatted_data={data} transferData={(currDraw)=>{setData(currDraw);}}/>
-        <CalculateNumber input={getData()} output={4}/>
+        <DrawNum width={280} height={280} formatted_data={info} transferData={handleInfo}/>
+        <CalculateNumber input={getInfo()} output={4}/>
     </div>
   );
 }

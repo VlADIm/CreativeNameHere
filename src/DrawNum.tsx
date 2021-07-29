@@ -82,7 +82,7 @@ export default function DragII({ data = [], width, height, formatted_data, trans
             key={`line-${i}`}
             fill="transparent"
             stroke="url(#stroke)"
-            strokeWidth={3}
+            strokeWidth={10}
             data={line}
             curve={curveBasis}
             x={d => d.x}

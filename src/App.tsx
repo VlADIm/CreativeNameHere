@@ -2,6 +2,8 @@ import React, {useState,useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import { render } from 'react-dom';
 import logo from './logo.svg';
+import linkedin from './LI-In-Bug.png';
+import github from './GitHub-Mark.png';
 import DrawNum from './DrawNum';
 import CalculateNumber from './CalculateNumber';
 import './App.css';
@@ -41,6 +43,10 @@ function App() {
 
     return (
     <div className="App">
+        <h1>What's that number?</h1>
+        <h5>By Vladimir Malcevic</h5>
+        <a className="linkedin" href="https://github.com/VlADIm"><img src={github} alt="GitHub Page"/></a>
+        <a className="github" href="https://www.linkedin.com/in/this-is-my-url/"><img src={linkedin} alt="LinkedIn Page"/></a>
         <DrawNum data={linear} width={280} height={280} formatted_data={info} transferData={handleLinear}/>
         <Button variant="outline-dark" disabled={active} onClick={resetData}>Clear</Button>{' '}
         <CalculateNumber input={getFlat(info)} output={4}/>

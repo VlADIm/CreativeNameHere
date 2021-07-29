@@ -7,55 +7,65 @@ import './DrawNum.css';
 
 type Line = { x: number; y: number }[];
 type Lines = Line[];
-
 type Num = number[][];
+type AddLine = (lines: Lines)=>Lines;
 
 export type DragIIProps = {
     width: number;
     height: number;
     formatted_data: number[][];
-    transferData:  (currDraw: any)=>void;
+    transferData:  (currLines: Lines) => void;
     data?: Lines;
 
 };
 
 export default function DragII({ data = [], width, height, formatted_data, transferData
 }: DragIIProps) {
-  const [lines, setLines] = useState<Lines>(data);
-  const [drawn,setDrawn] =useState<number[][]>(formatted_data);
-  const onDragStart = useCallback(
-    currDrag => {
-      // add the new line with the starting point
-      setLines(currLines => [...currLines, [{ x: currDrag.x, y: currDrag.y }]]);
-      setDrawn(currDraw => {
-          const newPoint = { x: currDrag.x, y: currDrag.y};
-          currDraw[Math.trunc(newPoint.y/10)][Math.trunc(newPoint.x/10)]=1;
-          transferData(currDraw);
-          return currDraw;
-      });
 
-    },
-    [setLines, setDrawn],
-  );
-  const onDragMove = useCallback(
-    currDrag => {
-      // add the new point to the current line
-      setLines(currLines => {
-        const nextLines = [...currLines];
-        const newPoint = { x: currDrag.x + currDrag.dx, y: currDrag.y + currDrag.dy };
-        const lastIndex = nextLines.length - 1;
-        nextLines[lastIndex] = [...(nextLines[lastIndex] || []), newPoint];
-        return nextLines;
-      });
-      setDrawn(currDraw => {
-          const newPoint = { x: currDrag.x + currDrag.dx, y: currDrag.y + currDrag.dy };
-          currDraw[Math.trunc(newPoint.y/10)][Math.trunc(newPoint.x/10)]=1;
-          transferData(currDraw);
-          return currDraw;
-      });
-    },
-    [setLines,setDrawn],
-  );
+    const [lines, setLines] = useState<Lines>(data);
+    const [drawn,setDrawn] =useState<number[][]>(formatted_data);
+    const onDragStart = useCallback(
+      currDrag => {
+        // add the new line with the starting point
+        const temp = (currLines: Lines) => {
+            return [...currLines, [{ x: currDrag.x, y: currDrag.y }]]
+        }
+        transferData(temp(data));
+        setDrawn(currDraw => {
+            const newPoint = { x: currDrag.x, y: currDrag.y};
+            currDraw[Math.trunc(newPoint.y/10)][Math.trunc(newPoint.x/10)]=1;
+            return currDraw;
+        });
+      },
+      [transferData, setDrawn],
+    );
+    const onDragMove = useCallback(
+      currDrag => {
+        // add the new point to the current line
+        const temp = (currLines: Lines) => {
+            const nextLines = [...currLines];
+            const newPoint = { x: currDrag.x + currDrag.dx, y: currDrag.y + currDrag.dy };
+            const lastIndex = nextLines.length - 1;
+            nextLines[lastIndex] = [...(nextLines[lastIndex] || []), newPoint];
+            return nextLines;
+        }
+
+        transferData(temp(data));
+        setDrawn(currDraw => {
+            const newPoint = { x: currDrag.x + currDrag.dx, y: currDrag.y + currDrag.dy };
+            const lastLine = data[data.length-1];
+            const lastPoint = lastLine[lastLine.length-1];
+            for(var x = Math.trunc(Math.min(lastPoint.x,newPoint.x)/10); x<= Math.trunc(Math.max(lastPoint.x,newPoint.x)/10);x++){
+                for(var y = Math.trunc(Math.min(lastPoint.y,newPoint.y)/10); y<= Math.trunc(Math.max(lastPoint.y,newPoint.y)/10);y++){
+                    currDraw[y][x]=1;
+                }
+            }
+            return currDraw;
+        });
+      },
+      [transferData,setDrawn],
+    );
+
   const { x = 0, y = 0, dx, dy, isDragging, dragStart, dragEnd, dragMove } = useDrag({
     onDragStart,
     onDragMove,
@@ -67,7 +77,7 @@ export default function DragII({ data = [], width, height, formatted_data, trans
       <svg width={width} height={height}>
         <LinearGradient id="stroke" from="#ff614e" to="#ffdc64" />
         <rect fill="#04002b" width={width} height={height} rx={14} />
-        {lines.map((line, i) => (
+        {data.map((line, i) => (
           <LinePath
             key={`line-${i}`}
             fill="transparent"
@@ -119,24 +129,6 @@ export default function DragII({ data = [], width, height, formatted_data, trans
           />
         </g>
       </svg>
-      <div className="deets">
-        <div>
-          Based on Mike Bostock's{' '}
-          <a href="https://bl.ocks.org/mbostock/f705fc55e6f26df29354">Line Drawing</a>
-        </div>
-        <div>
-            {drawn.map(function (row, i){
-                var entry = row.map(function (element, j) {
-                    return (
-                        <td key={j}> {element} </td>
-                    );
-                });
-                return (<tr key={i}> {entry} </tr>)
-            })
-            }
-        </div>
-      </div>
-
     </div>
   );
 }

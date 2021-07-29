@@ -1,4 +1,5 @@
 import React,{useState,useEffect, useCallback} from 'react';
+import Button from 'react-bootstrap/Button';
 import * as math from 'mathjs';
 import { Matrix } from 'ml-matrix';
 
@@ -22,6 +23,7 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
 
     const [data,setData]=useState<Network>(network);
     const [result,setResult]=useState<number>(10);
+    const [active,setActive]=useState<boolean>(true);
 
     const getData = useCallback(() => {
         fetch('network.json',{
@@ -35,7 +37,7 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
             return response.json();
         })
         .then(function(myJson) {
-            console.log(myJson);
+            // console.log(myJson);
             setData(myJson)
         });
     }, [],);
@@ -66,15 +68,19 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
     // let temp_weight = new Matrix(element[0]);
     // let temp_biase = new Matrix(element[1]);
 
+    const hasData = () => {
+        return input.length > 0;
+    }
+
     useEffect(()=>{
         getData();
         // calculateOutput(input,data);
-    },[])
+    });
 
   return (
     <div className="CalculateNumber">
-    <button onClick={getResult}>Calculate Number</button>
-    {result}
+    <h3>{result}</h3>
+    <Button variant="outline-dark" onClick={getResult}>Calculate Number</Button>
     </div>
   );
 }

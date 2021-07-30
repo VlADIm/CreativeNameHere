@@ -75,7 +75,7 @@ export default function CalculateNumber({input,network={weights:[],biases:[]},ou
     useEffect(()=>{
         getData();
         // calculateOutput(input,data);
-    });
+    }, []);
 
   return (
     <div className="CalculateNumber">

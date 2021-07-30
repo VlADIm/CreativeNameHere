@@ -44,3 +44,10 @@
 .linkedin {
     padding: 10px;
 }
+
+p {
+    padding: 25px;
+    margin: auto;
+    max-width: 1000px;
+    display: block;
+}

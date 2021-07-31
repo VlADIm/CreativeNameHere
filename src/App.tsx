@@ -45,7 +45,7 @@ function App() {
         <h5>By Vladimir Malcevic</h5>
         <a className="linkedin" href="https://github.com/VlADIm"><img src={github} alt="GitHub Page"/></a>
         <a className="github" href="https://www.linkedin.com/in/this-is-my-url/"><img src={linkedin} alt="LinkedIn Page"/></a>
-        <p>Hello! Draw the number in the box below and click the button below labeled Calulate Number. This currently uses the entire drawing canvas to guess the number, so please make sure to draw to both fill the space and center on the middle of the canvas!</p>
+        <p>Hello! Draw the number in the box below and click the button below labeled Calculate Number. This currently uses the entire drawing canvas to guess the number, so please make sure to draw to both fill the space and center on the middle of the canvas!</p>
         <DrawNum data={linear} width={280} height={280} formatted_data={info} transferData={handleLinear}/>
         <Button variant="outline-dark" disabled={active} onClick={resetData}>Clear</Button>{' '}
         <CalculateNumber input={getFlat(info)} output={4}/>
